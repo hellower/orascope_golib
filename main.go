@@ -1,8 +1,8 @@
 package main
 
 import (
-	"orascope_golib/anotherlib"
-	"orascope_golib/orascopeLogger"
+	"github.com/hellower/orascope_golib/anotherlib"
+	"github.com/hellower/orascope_golib/orascopeLogger"
 	"os"
 	"time"
 	//	"github.com/pkg/errors"
