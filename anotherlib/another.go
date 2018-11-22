@@ -1,7 +1,7 @@
 package another
 
 import (
-	"orascope_golib/orascopeLogger"
+	"github.com/hellower/orascope_golib/orascopeLogger"
 	"os"
 
 	"github.com/pkg/errors"
