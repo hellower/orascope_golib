@@ -60,7 +60,7 @@ func (this *ClsLogger) StartFile(a_path string, a_fileName string) {
 	this.fullLogFilePath = fmt.Sprintf("%s%c%s", this.fullLogDir, os.PathSeparator, this.fileName)
 
 	var err error
-	this.fs, err = os.OpenFile(this.fullLogFilePath, os.O_CREATE|os.O_WRONLY, 0644)
+	this.fs, err = os.OpenFile(this.fullLogFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	log.SetFlags(0)
 	log.SetOutput(this)
