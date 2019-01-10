@@ -138,9 +138,9 @@ func (this *ClsLogger) Trace(a_format string, a_args ...interface{}) {
 
 func (this *ClsLogger) Console(format string, args ...interface{}) {
 	if args == nil {
-		this.log.Infof(format)
+		fmt.Printf(format)
 	} else {
-		this.log.Infof(format+"\n", args...)
+		fmt.Printf(format+"\n", args...)
 	}
 }
 
