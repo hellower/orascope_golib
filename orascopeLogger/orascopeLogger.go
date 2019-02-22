@@ -101,6 +101,7 @@ func (this *ClsLogger) Fatal(a_err error) {
 		// exit 내장됨!
 		this.CleanUp()
 		this.log.Errorf("{%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
+		os.Exit(-1)
 	}
 }
 
@@ -111,6 +112,7 @@ func (this *ClsLogger) Fatalf(a_err error, a_format string, a_args ...interface{
 
 		this.CleanUp()
 		this.log.Errorf(a_format+l_runtimeMsg, a_args...)
+		os.Exit(-1)
 	}
 }
 
