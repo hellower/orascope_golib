@@ -1,4 +1,4 @@
-package orascopeLogger
+package kssLogger
 
 import (
 	"fmt"
@@ -6,8 +6,6 @@ import (
 	"os"
 	"runtime"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 type ClsLogger struct {
@@ -24,7 +22,7 @@ type ClsLogger struct {
 func BornClsLogger() (this *ClsLogger) {
 	this = new(ClsLogger)
 
-	this.Version = "20170729"
+	this.Version = "20170525"
 	this.fs = nil
 	this.seq = 0 // default
 
@@ -40,7 +38,7 @@ func BornClsLogger() (this *ClsLogger) {
 // 헤더 장착!!
 func (this *ClsLogger) Write(bytes []byte) (int, error) {
 	this.seq = this.seq + 1
-	return fmt.Fprintf(this.fs, "[%d,%s,%s", this.seq, time.Now().Format("15:04:05"), string(bytes))
+	return fmt.Fprintf(this.fs, "[%d,%s] %s", this.seq, time.Now().Format("15:04:05"), string(bytes))
 }
 
 /*
@@ -49,7 +47,7 @@ func (this *ClsLogger) StartConsole() {
 }
 */
 
-func (this *ClsLogger) TracingMode(a_debug bool) {
+func (this *ClsLogger) DebuggingMode(a_debug bool) {
 	this.debug = a_debug
 }
 
@@ -80,15 +78,6 @@ func (this *ClsLogger) CleanUp() {
 	//fmt.Printf("\nCleanUp")
 }
 
-/*
-Fatalnew("에러");
-Fatalnew("%s","발생");
-*/
-
-func (this *ClsLogger) FatalNew(a_format string, a_args ...interface{}) {
-	this.Fatal(fmt.Errorf(a_format, a_args...))
-}
-
 // Fatal(fmt.Errorf("%v",a_errr)) 이런식으로 사용가능
 func (this *ClsLogger) Fatal(a_err error) {
 	if a_err != nil {
@@ -96,7 +85,7 @@ func (this *ClsLogger) Fatal(a_err error) {
 		if this.console {
 			fmt.Printf("\n[FATAL] {%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
 		} else {
-			log.Printf("FATAL] {%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
+			log.Printf("[FATAL] {%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
 		}
 	}
 	this.CleanUp()
@@ -110,46 +99,44 @@ func (this *ClsLogger) Fatalf(a_err error, a_format string, a_args ...interface{
 		if this.console {
 			fmt.Printf("\n[FATAL] "+a_format+l_runtimeMsg, a_args...)
 		} else {
-			log.Printf("FATAL] "+a_format+l_runtimeMsg, a_args...)
+			log.Printf("[FATAL] "+a_format+l_runtimeMsg, a_args...)
 		}
 	}
 	this.CleanUp()
 	os.Exit(-1)
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
 func (this *ClsLogger) Info(a_format string, a_args ...interface{}) {
 	if a_args == nil {
 		if this.console {
 			fmt.Printf("\n[INFO] %s", a_format)
 		} else if this.fs != nil {
-			log.Printf("INFO] %s", a_format)
+			log.Printf("[INFO] %s", a_format)
 		}
 	} else {
 		if this.console {
 			fmt.Printf("\n[INFO] "+a_format, a_args...)
 		} else if this.fs != nil {
-			log.Printf("INFO] "+a_format, a_args...)
+			log.Printf("[INFO] "+a_format, a_args...)
 		}
 	}
 }
 
-func (this *ClsLogger) Trace(a_format string, a_args ...interface{}) {
+func (this *ClsLogger) Debug(a_format string, a_args ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
 		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), fn, line)
 		if a_args == nil {
 			if this.console {
-				fmt.Printf("\n[TRACE] %s%s", a_format, l_runtimeMsg)
+				fmt.Printf("\n[DEBUG] %s%s", a_format, l_runtimeMsg)
 			} else if this.fs != nil {
-				log.Printf("TRACE] %s%s", a_format, l_runtimeMsg)
+				log.Printf("[DEBUG] %s%s", a_format, l_runtimeMsg)
 			}
 		} else {
 			if this.console {
-				fmt.Printf("\n[TRACE] "+a_format+l_runtimeMsg, a_args...)
+				fmt.Printf("\n[DEBUG] "+a_format+l_runtimeMsg, a_args...)
 			} else if this.fs != nil {
-				log.Printf("TRACE] "+a_format+l_runtimeMsg, a_args...)
+				log.Printf("[DEBUG] "+a_format+l_runtimeMsg, a_args...)
 			}
 		}
 	}
@@ -165,19 +152,14 @@ func (this *ClsLogger) Console(format string, args ...interface{}) {
 
 func (this *ClsLogger) Catch() {
 	if l_err := recover(); l_err != nil {
-		//this.Fatalf(fmt.Errorf("%v", l_err), "CATCH")
-		this.Fatal(errors.Errorf("%v", l_err)) // 2017.07.29
+		this.Fatalf(fmt.Errorf("%v", l_err), "CATCH")
 	}
 }
 
 /********************************************************************************/
 
-var _g_ClsLogger_ *ClsLogger // global 변수임
-func init() { // main 보다 우선 수행됨!!!
-	_g_ClsLogger_ = BornClsLogger()
+var Glog *ClsLogger // global 변수임
+func init() {       // main 보다 우선 수행됨!!!
+	Glog = BornClsLogger()
 	//fmt.Printf("mylogger.init()")
-}
-
-func Glog() *ClsLogger {
-	return _g_ClsLogger_
 }

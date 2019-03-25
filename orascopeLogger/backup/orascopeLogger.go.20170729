@@ -6,8 +6,6 @@ import (
 	"os"
 	"runtime"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 type ClsLogger struct {
@@ -24,7 +22,7 @@ type ClsLogger struct {
 func BornClsLogger() (this *ClsLogger) {
 	this = new(ClsLogger)
 
-	this.Version = "20170729"
+	this.Version = "20170525"
 	this.fs = nil
 	this.seq = 0 // default
 
@@ -80,15 +78,6 @@ func (this *ClsLogger) CleanUp() {
 	//fmt.Printf("\nCleanUp")
 }
 
-/*
-Fatalnew("에러");
-Fatalnew("%s","발생");
-*/
-
-func (this *ClsLogger) FatalNew(a_format string, a_args ...interface{}) {
-	this.Fatal(fmt.Errorf(a_format, a_args...))
-}
-
 // Fatal(fmt.Errorf("%v",a_errr)) 이런식으로 사용가능
 func (this *ClsLogger) Fatal(a_err error) {
 	if a_err != nil {
@@ -116,8 +105,6 @@ func (this *ClsLogger) Fatalf(a_err error, a_format string, a_args ...interface{
 	this.CleanUp()
 	os.Exit(-1)
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func (this *ClsLogger) Info(a_format string, a_args ...interface{}) {
 	if a_args == nil {
@@ -165,19 +152,14 @@ func (this *ClsLogger) Console(format string, args ...interface{}) {
 
 func (this *ClsLogger) Catch() {
 	if l_err := recover(); l_err != nil {
-		//this.Fatalf(fmt.Errorf("%v", l_err), "CATCH")
-		this.Fatal(errors.Errorf("%v", l_err)) // 2017.07.29
+		this.Fatalf(fmt.Errorf("%v", l_err), "CATCH")
 	}
 }
 
 /********************************************************************************/
 
-var _g_ClsLogger_ *ClsLogger // global 변수임
-func init() { // main 보다 우선 수행됨!!!
-	_g_ClsLogger_ = BornClsLogger()
+var Glog *ClsLogger // global 변수임
+func init() {       // main 보다 우선 수행됨!!!
+	Glog = BornClsLogger()
 	//fmt.Printf("mylogger.init()")
-}
-
-func Glog() *ClsLogger {
-	return _g_ClsLogger_
 }
