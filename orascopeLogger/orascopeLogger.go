@@ -24,7 +24,7 @@ type ClsLogger struct {
 func BornClsLogger() (this *ClsLogger) {
 	this = new(ClsLogger)
 
-	this.Version = "20170729"
+	this.Version = "20190420"
 	this.fs = nil
 	this.seq = 0 // default
 
@@ -100,8 +100,8 @@ func (this *ClsLogger) Fatal(a_err error) {
 		pc, fn, line, _ := runtime.Caller(1)
 
 		// exit 내장됨!
-		this.CleanUp()
 		this.log.Errorf("{%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
+		this.CleanUp()
 		os.Exit(-1)
 	}
 }
@@ -111,8 +111,8 @@ func (this *ClsLogger) Fatalf(a_err error, a_format string, a_args ...interface{
 		pc, fn, line, _ := runtime.Caller(1)
 		l_runtimeMsg := fmt.Sprintf(" {%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
 
-		this.CleanUp()
 		this.log.Errorf(a_format+l_runtimeMsg, a_args...)
+		this.CleanUp()
 		os.Exit(-1)
 	}
 }
