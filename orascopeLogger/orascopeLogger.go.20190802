@@ -2,7 +2,6 @@ package orascopeLogger
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"runtime"
 
@@ -37,7 +36,7 @@ func BornClsLogger() (this *ClsLogger) {
 
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetOutput(os.Stdout)
-	this.log = logrus.WithFields(logrus.Fields{"name": "console"})
+        this.log = logrus.WithFields(logrus.Fields{"name": "console" })
 	return
 }
 
@@ -142,11 +141,9 @@ func (this *ClsLogger) Trace(a_format string, a_args ...interface{}) {
 
 func (this *ClsLogger) Console(format string, args ...interface{}) {
 	if args == nil {
-		//fmt.Printf(format+"\n")
-		log.Println(format)
+		fmt.Printf(format)
 	} else {
-		//fmt.Printf(format+"\n", args...)
-		log.Printf(format+"\n", args...)
+		fmt.Printf(format+"\n", args...)
 	}
 }
 
