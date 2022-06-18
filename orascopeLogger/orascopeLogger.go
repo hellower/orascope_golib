@@ -153,10 +153,10 @@ func (this *ClsLogger) Console(format string, args ...interface{}) {
 func (this *ClsLogger) DebugConsole(format string, args ...interface{}) {
 	if args == nil {
 		//fmt.Printf(format+"\n")
-		log.Println("!!DEBUG!! " + format)
+		log.Println("@@DEBUG@@ " + format)
 	} else {
 		//fmt.Printf(format+"\n", args...)
-		log.Printf("!!DEBUG!! "+format+"\n", args...)
+		log.Printf("@@DEBUG@@ "+format+"\n", args...)
 	}
 }
 
