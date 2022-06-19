@@ -150,27 +150,14 @@ func (this *ClsLogger) Console(format string, args ...interface{}) {
 	}
 }
 
-func (this *ClsLogger) DebugConsole(a_format string, args ...interface{}) {
-	if this.debug {
-		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), fn, line)
-		if a_args == nil {
-			log.Printf("@@DEBUG@@ %s%s\n", a_format, l_runtimeMsg)
-		} else {
-			log.Printf("@@DEBUG@@ "+a_format+l_runtimeMsg+"\n", a_args...)
-		}
+func (this *ClsLogger) DebugConsole(format string, args ...interface{}) {
+	if args == nil {
+		//fmt.Printf(format+"\n")
+		log.Println("@@DEBUG@@ " + format)
+	} else {
+		//fmt.Printf(format+"\n", args...)
+		log.Printf("@@DEBUG@@ "+format+"\n", args...)
 	}
-	/*
-		if this.debug {
-			if args == nil {
-				//fmt.Printf(format+"\n")
-				log.Println("@@DEBUG@@ " + format)
-			} else {
-				//fmt.Printf(format+"\n", args...)
-				log.Printf("@@DEBUG@@ "+format+"\n", args...)
-			}
-		}
-	*/
 }
 
 func (this *ClsLogger) Catch() {
