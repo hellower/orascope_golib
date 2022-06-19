@@ -25,7 +25,8 @@ type ClsLogger struct {
 func BornClsLogger() (this *ClsLogger) {
 	this = new(ClsLogger)
 
-	this.Version = "20190420"
+	//	this.Version = "20190420"
+	this.Version = "20220619"
 	this.fs = nil
 	this.seq = 0 // default
 
@@ -54,14 +55,14 @@ func (this *ClsLogger) StartConsole() {
 }
 */
 
-func (this *ClsLogger) TracingMode(a_debug bool) {
-	this.debug = a_debug
+func (this *ClsLogger) TracingMode(aDebug bool) {
+	this.debug = aDebug
 }
 
-func (this *ClsLogger) StartFile(a_path string, a_fileName string, a_appname string) {
+func (this *ClsLogger) StartFile(aPath string, aFilename string, aAppname string) {
 	this.console = false
-	this.fullLogDir = a_path
-	this.fileName = a_fileName
+	this.fullLogDir = aPath
+	this.fileName = aFilename
 	this.fullLogFilePath = fmt.Sprintf("%s%c%s", this.fullLogDir, os.PathSeparator, this.fileName)
 
 	var err error
@@ -69,7 +70,7 @@ func (this *ClsLogger) StartFile(a_path string, a_fileName string, a_appname str
 
 	logrus.SetOutput(this.fs)
 
-	this.log = logrus.WithFields(logrus.Fields{"name": a_appname})
+	this.log = logrus.WithFields(logrus.Fields{"name": aAppname})
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Exception: %v\n", err)
@@ -91,28 +92,28 @@ Fatalnew("에러");
 Fatalnew("%s","발생");
 */
 
-func (this *ClsLogger) FatalNew(a_format string, a_args ...interface{}) {
-	this.Fatal(fmt.Errorf(a_format, a_args...))
+func (this *ClsLogger) FatalNew(aFormat string, aArgs ...interface{}) {
+	this.Fatal(fmt.Errorf(aFormat, aArgs...))
 }
 
-// Fatal(fmt.Errorf("%v",a_errr)) 이런식으로 사용가능
-func (this *ClsLogger) Fatal(a_err error) {
-	if a_err != nil {
+// Fatal(fmt.Errorf("%v",rErr)) 이런식으로 사용가능
+func (this *ClsLogger) Fatal(rErr error) {
+	if rErr != nil {
 		pc, fn, line, _ := runtime.Caller(1)
 
 		// exit 내장됨!
-		this.log.Errorf("{%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
+		this.log.Errorf("{%v} @%s<%s:%d>", rErr, runtime.FuncForPC(pc).Name(), fn, line)
 		this.CleanUp()
 		os.Exit(-1)
 	}
 }
 
-func (this *ClsLogger) Fatalf(a_err error, a_format string, a_args ...interface{}) {
-	if a_err != nil {
+func (this *ClsLogger) Fatalf(rErr error, aFormat string, aArgs ...interface{}) {
+	if rErr != nil {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" {%v} @%s<%s:%d>", a_err, runtime.FuncForPC(pc).Name(), fn, line)
+		l_runtimeMsg := fmt.Sprintf(" {%v} @%s<%s:%d>", rErr, runtime.FuncForPC(pc).Name(), fn, line)
 
-		this.log.Errorf(a_format+l_runtimeMsg, a_args...)
+		this.log.Errorf(aFormat+l_runtimeMsg, aArgs...)
 		this.CleanUp()
 		os.Exit(-1)
 	}
@@ -120,44 +121,44 @@ func (this *ClsLogger) Fatalf(a_err error, a_format string, a_args ...interface{
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func (this *ClsLogger) Info(a_format string, a_args ...interface{}) {
-	if a_args == nil {
-		this.log.Info(a_format)
+func (this *ClsLogger) Info(aFormat string, aArgs ...interface{}) {
+	if aArgs == nil {
+		this.log.Info(aFormat)
 	} else {
-		this.log.Infof(a_format, a_args...)
+		this.log.Infof(aFormat, aArgs...)
 	}
 }
 
-func (this *ClsLogger) Trace(a_format string, a_args ...interface{}) {
+func (this *ClsLogger) Trace(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
 		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), fn, line)
-		if a_args == nil {
-			this.log.Tracef("%s%s", a_format, l_runtimeMsg)
+		if aArgs == nil {
+			this.log.Tracef("%s%s", aFormat, l_runtimeMsg)
 		} else {
-			this.log.Tracef(a_format+l_runtimeMsg, a_args...)
+			this.log.Tracef(aFormat+l_runtimeMsg, aArgs...)
 		}
 	}
 }
 
-func (this *ClsLogger) Console(format string, args ...interface{}) {
-	if args == nil {
+func (this *ClsLogger) Console(aFormat string, aArgs ...interface{}) {
+	if aArgs == nil {
 		//fmt.Printf(format+"\n")
-		log.Println(format)
+		log.Println(aFormat)
 	} else {
 		//fmt.Printf(format+"\n", args...)
-		log.Printf(format+"\n", args...)
+		log.Printf(aFormat+"\n", aArgs...)
 	}
 }
 
-func (this *ClsLogger) DebugConsole(a_format string, args ...interface{}) {
+func (this *ClsLogger) DebugConsole(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
 		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), fn, line)
-		if a_args == nil {
-			log.Printf("@@DEBUG@@ %s%s\n", a_format, l_runtimeMsg)
+		if aArgs == nil {
+			log.Printf("@@DEBUG@@ %s%s\n", aFormat, l_runtimeMsg)
 		} else {
-			log.Printf("@@DEBUG@@ "+a_format+l_runtimeMsg+"\n", a_args...)
+			log.Printf("@@DEBUG@@ "+aFormat+l_runtimeMsg+"\n", aArgs...)
 		}
 	}
 	/*
