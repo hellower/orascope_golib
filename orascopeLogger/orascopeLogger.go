@@ -34,7 +34,7 @@ func BornClsLogger() (this *ClsLogger) {
 	this.fullLogDir = ""
 	this.fullLogFilePath = ""
 	this.console = true // 디폴트콘솔임 StartFile 전까지!!
-	this.debug = true   // 디폴트 디버깅모드임.
+	this.debug = false  // 디폴트 디버깅모드임.
 
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetOutput(os.Stdout)
