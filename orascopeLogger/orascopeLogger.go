@@ -104,7 +104,7 @@ func (this *ClsLogger) Fatal(rErr error) {
 		pc, fn, line, _ := runtime.Caller(1)
 
 		// exit 내장됨!
-		this.log.Errorf("@%s:%d  %s: {%v}", filepath.Base(fn), line, runtime.FuncForPC(pc).Name(), rErr)
+		this.log.Errorf("@%s:%d  %s=> {%v}", filepath.Base(fn), line, runtime.FuncForPC(pc).Name(), rErr)
 		this.CleanUp()
 		os.Exit(-1)
 	}
@@ -113,9 +113,9 @@ func (this *ClsLogger) Fatal(rErr error) {
 func (this *ClsLogger) Fatalf(rErr error, aFormat string, aArgs ...interface{}) {
 	if rErr != nil {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" @%s:%d  %s: {%v}", filepath.Base(fn), line, runtime.FuncForPC(pc).Name(), rErr)
+		lRuntimeMsg := fmt.Sprintf(" @%s:%d  %s {%v}=> ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name(), rErr)
 
-		this.log.Errorf(aFormat+l_runtimeMsg, aArgs...)
+		this.log.Errorf(lRuntimeMsg+aFormat, aArgs...)
 		this.CleanUp()
 		os.Exit(-1)
 	}
@@ -134,11 +134,11 @@ func (this *ClsLogger) Info(aFormat string, aArgs ...interface{}) {
 func (this *ClsLogger) Trace(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" %s:%d  %s: ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
+		lRuntimeMsg := fmt.Sprintf(" %s:%d  %s=> ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
 		if aArgs == nil {
-			this.log.Tracef("%s%s", l_runtimeMsg, aFormat)
+			this.log.Tracef("%s%s", lRuntimeMsg, aFormat)
 		} else {
-			this.log.Tracef(l_runtimeMsg+aFormat, aArgs...)
+			this.log.Tracef(lRuntimeMsg+aFormat, aArgs...)
 		}
 	}
 }
@@ -156,11 +156,11 @@ func (this *ClsLogger) Console(aFormat string, aArgs ...interface{}) {
 func (this *ClsLogger) DebugConsole(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" %s:%d  %s: ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
+		lRuntimeMsg := fmt.Sprintf(" %s:%d  %s=> ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
 		if aArgs == nil {
-			log.Printf("@@DEBUG@@ %s%s\n", l_runtimeMsg, aFormat)
+			log.Printf("@@DEBUG@@ %s%s\n", lRuntimeMsg, aFormat)
 		} else {
-			log.Printf("@@DEBUG@@ "+l_runtimeMsg+aFormat+"\n", aArgs...)
+			log.Printf("@@DEBUG@@ "+lRuntimeMsg+aFormat+"\n", aArgs...)
 		}
 	}
 	/*
