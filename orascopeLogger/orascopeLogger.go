@@ -8,6 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+	"path/filepath"
 )
 
 type ClsLogger struct {
@@ -102,7 +103,7 @@ func (this *ClsLogger) Fatal(rErr error) {
 		pc, fn, line, _ := runtime.Caller(1)
 
 		// exit 내장됨!
-		this.log.Errorf("{%v} @%s<%s:%d>", rErr, runtime.FuncForPC(pc).Name(), fn, line)
+		this.log.Errorf("{%v} @%s<%s:%d>", rErr, runtime.FuncForPC(pc).Name(), filepath.Base(fn), line)
 		this.CleanUp()
 		os.Exit(-1)
 	}
@@ -111,7 +112,7 @@ func (this *ClsLogger) Fatal(rErr error) {
 func (this *ClsLogger) Fatalf(rErr error, aFormat string, aArgs ...interface{}) {
 	if rErr != nil {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" {%v} @%s<%s:%d>", rErr, runtime.FuncForPC(pc).Name(), fn, line)
+		l_runtimeMsg := fmt.Sprintf(" {%v} @%s<%s:%d>", rErr, runtime.FuncForPC(pc).Name(), filepath.Base(fn), line)
 
 		this.log.Errorf(aFormat+l_runtimeMsg, aArgs...)
 		this.CleanUp()
@@ -132,7 +133,7 @@ func (this *ClsLogger) Info(aFormat string, aArgs ...interface{}) {
 func (this *ClsLogger) Trace(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), fn, line)
+		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), filepath.Base(fn), line)
 		if aArgs == nil {
 			this.log.Tracef("%s%s", aFormat, l_runtimeMsg)
 		} else {
@@ -154,7 +155,7 @@ func (this *ClsLogger) Console(aFormat string, aArgs ...interface{}) {
 func (this *ClsLogger) DebugConsole(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), fn, line)
+		l_runtimeMsg := fmt.Sprintf(" @%s<%s:%d>", runtime.FuncForPC(pc).Name(), filepath.Base(fn), line)
 		if aArgs == nil {
 			log.Printf("@@DEBUG@@ %s%s\n", aFormat, l_runtimeMsg)
 		} else {
