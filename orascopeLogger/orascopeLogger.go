@@ -104,7 +104,7 @@ func (this *ClsLogger) Fatal(rErr error) {
 		pc, fn, line, _ := runtime.Caller(1)
 
 		// exit 내장됨!
-		this.log.Errorf("{%v} @%s:%d  %s", rErr, filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
+		this.log.Errorf("@%s:%d  %s: {%v}", filepath.Base(fn), line, runtime.FuncForPC(pc).Name(), rErr)
 		this.CleanUp()
 		os.Exit(-1)
 	}
@@ -113,7 +113,7 @@ func (this *ClsLogger) Fatal(rErr error) {
 func (this *ClsLogger) Fatalf(rErr error, aFormat string, aArgs ...interface{}) {
 	if rErr != nil {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" {%v} @%s:%d  %s", rErr, filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
+		l_runtimeMsg := fmt.Sprintf(" @%s:%d  %s: {%v}", filepath.Base(fn), line, runtime.FuncForPC(pc).Name(), rErr)
 
 		this.log.Errorf(aFormat+l_runtimeMsg, aArgs...)
 		this.CleanUp()
@@ -134,7 +134,7 @@ func (this *ClsLogger) Info(aFormat string, aArgs ...interface{}) {
 func (this *ClsLogger) Trace(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" %s:%d  %s", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
+		l_runtimeMsg := fmt.Sprintf(" %s:%d  %s: ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
 		if aArgs == nil {
 			this.log.Tracef("%s%s", l_runtimeMsg, aFormat)
 		} else {
@@ -156,7 +156,7 @@ func (this *ClsLogger) Console(aFormat string, aArgs ...interface{}) {
 func (this *ClsLogger) DebugConsole(aFormat string, aArgs ...interface{}) {
 	if this.debug {
 		pc, fn, line, _ := runtime.Caller(1)
-		l_runtimeMsg := fmt.Sprintf(" %s:%d  %s", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
+		l_runtimeMsg := fmt.Sprintf(" %s:%d  %s: ", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
 		if aArgs == nil {
 			log.Printf("@@DEBUG@@ %s%s\n", l_runtimeMsg, aFormat)
 		} else {
