@@ -136,9 +136,9 @@ func (this *ClsLogger) Trace(aFormat string, aArgs ...interface{}) {
 		pc, fn, line, _ := runtime.Caller(1)
 		l_runtimeMsg := fmt.Sprintf(" @%s:%d  %s", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
 		if aArgs == nil {
-			this.log.Tracef("%s%s", aFormat, l_runtimeMsg)
+			this.log.Tracef("%s%s", l_runtimeMsg, aFormat)
 		} else {
-			this.log.Tracef(aFormat+l_runtimeMsg, aArgs...)
+			this.log.Tracef(l_runtimeMsg+aFormat, aArgs...)
 		}
 	}
 }
@@ -158,9 +158,9 @@ func (this *ClsLogger) DebugConsole(aFormat string, aArgs ...interface{}) {
 		pc, fn, line, _ := runtime.Caller(1)
 		l_runtimeMsg := fmt.Sprintf(" @%s:%d  %s", filepath.Base(fn), line, runtime.FuncForPC(pc).Name())
 		if aArgs == nil {
-			log.Printf("@@DEBUG@@ %s%s\n", aFormat, l_runtimeMsg)
+			log.Printf("@@DEBUG@@ %s%s\n", l_runtimeMsg, aFormat)
 		} else {
-			log.Printf("@@DEBUG@@ "+aFormat+l_runtimeMsg+"\n", aArgs...)
+			log.Printf("@@DEBUG@@ "+l_runtimeMsg+aFormat+"\n", aArgs...)
 		}
 	}
 	/*
