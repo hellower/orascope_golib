@@ -27,7 +27,8 @@ func BornClsLogger() (this *ClsLogger) {
 	this = new(ClsLogger)
 
 	//	this.Version = "20190420"
-	this.Version = "20220619"
+	//	this.Version = "20220619"
+	this.Version = "20220716" // remove file fullpath
 	this.fs = nil
 	this.seq = 0 // default
 
