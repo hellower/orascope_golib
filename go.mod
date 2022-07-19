@@ -8,6 +8,6 @@ require (
 )
 
 require (
-	github.com/hellower/orascope_golib/orascopeUtils v0.0.0-20220718233402-b14b49626650 // indirect
+	github.com/hellower/orascope_golib/orascopeUtils v0.0.0-20220719020028-4725f2569d94 // indirect
 	golang.org/x/sys v0.0.0-20191026070338-33540a1f6037 // indirect
 )
