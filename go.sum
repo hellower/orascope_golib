@@ -1,9 +1,9 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/hellower/orascope_golib/orascopeLogger v0.0.0-20220719022716-dacd19319abb h1:3EfcaB7+CQtQJtNqYnwMD8XjmlnhtXhaWGZv+61/zJs=
-github.com/hellower/orascope_golib/orascopeLogger v0.0.0-20220719022716-dacd19319abb/go.mod h1:dAWZaPUAq3tzz24gmhFMjWqKnEszPm/R5bpAxeLIv54=
-github.com/hellower/orascope_golib/orascopeUtils v0.0.0-20220719022716-dacd19319abb h1:PPOFZpZ1vcEwVs3icFshPIf16eRiCsKk5uCak0CXeso=
-github.com/hellower/orascope_golib/orascopeUtils v0.0.0-20220719022716-dacd19319abb/go.mod h1:O82D9vnP4NO9pkL6jvt4sBXiYtcDPyEHyUtkFpTsNLE=
+github.com/hellower/orascope_golib/orascopeLogger v0.0.0-20230403001020-c2e2cd915546 h1:Ppqr5mEwD2pz8Zz42JWU9xX1C3bx5djWb2DUOn5kZmI=
+github.com/hellower/orascope_golib/orascopeLogger v0.0.0-20230403001020-c2e2cd915546/go.mod h1:dAWZaPUAq3tzz24gmhFMjWqKnEszPm/R5bpAxeLIv54=
+github.com/hellower/orascope_golib/orascopeUtils v0.0.0-20230403001020-c2e2cd915546 h1:dxbOddtpk0OslqmMzFfqQyu2+q9ttW8jh4YxKZQDnTc=
+github.com/hellower/orascope_golib/orascopeUtils v0.0.0-20230403001020-c2e2cd915546/go.mod h1:8hEfYhxjeYIjrSLys2GnvMYXznhegTZJrEp0YZ2+sTE=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
